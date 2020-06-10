@@ -1,0 +1,66 @@
+﻿@page "/consumption"
+@attribute [Authorize]
+
+@inherits ConsumptionBase
+
+<h2>Add Car Consumption</h2>
+<div class="row content">
+    <label for="carName" class="col-sm-2 col-form-label">Car Name</label>
+    <div class="col-sm-10">
+        <input type="text" readonly class="form-control-plaintext" id="carName" value="@Car?.Name">
+    </div>
+</div>
+
+<EditForm Model="@Consumption" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="row content">
+        <div class="col-md-2"><label for="distance">Distance</label></div>
+        <div class="col-md-3"><InputNumber id="distance" @bind-Value="Consumption.Distance" /></div>
+    </div>
+    <div class="row content">
+        <div class="col-md-2"><label for="fuel">Fuel Consumption (Lt)</label></div>
+        <div class="col-md-3"><InputNumber id="fuel" @bind-Value="Consumption.FuelConsumption" /></div>
+    </div>
+    <div class="row content">
+        <div class="col-md-2"><label for="Observations">Observations</label></div>
+        <div class="col-md-3"><InputText id="Observations" @bind-Value="Consumption.Observations" /></div>
+    </div>
+    <div class="row content">
+        <button type="submit">Submit</button>
+    </div>
+</EditForm>
+
+<h2>List of consumptions</h2>
+
+@if (Consumptions == null)
+{
+    <p><em>There is no consumptions</em></p>
+}
+else
+{
+    <div class="row content">
+        <table class="table table-responsive-sm table-hover">
+            <thead>
+                <tr>
+
+                    <th scope="col">Distance(Km)</th>
+                    <th scope="col">Fuel (Lt) </th>
+                    <th scope="col">User</th>
+                    <th scope="col">Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var consumption in Consumptions)
+                {
+                    <tr>
+                        <td>@consumption.Distance </td>
+                        <td>@consumption.FuelConsumption</td>
+                        <td>@consumption.UserName</td>
+                        <td>@consumption.Observations</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

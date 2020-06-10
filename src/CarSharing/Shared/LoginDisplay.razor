@@ -1,0 +1,25 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@{
+
+    var authState = AuthenticationStateProvider.GetAuthenticationStateAsync().Result;
+    var user = authState.User;
+
+    var fullName = user.Identity.IsAuthenticated ? user.Claims.FirstOrDefault(c => c.Type == "FullName").Value : "";
+}
+
+<AuthorizeView>
+    <Authorized>
+        <a href="Identity/Account/Manage">Hello, @fullName!</a>
+        <form method="post" action="Identity/Account/Logout">
+            <button type="submit" class="nav-link btn btn-link">Log out</button>
+        </form>
+    </Authorized>
+    <NotAuthorized>
+        <a href="Identity/Account/Register">Register</a>
+        <a href="Identity/Account/Login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+
